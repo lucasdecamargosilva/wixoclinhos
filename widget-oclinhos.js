@@ -157,12 +157,14 @@
         /* ── Fontes ── */
 
         :root {
+            /* Branding Oclinhos de Leitura — verde + amarelo */
             --c-bg: #ffffff;
-            --c-surface: #f7f6f4;
-            --c-ink: #111111;
-            --c-muted: #999;
-            --c-line: #e8e8e8;
-            --c-accent: #111111;
+            --c-surface: #f4f8f2;
+            --c-ink: #15803d;        /* verde Oclinhos (CTAs, títulos, ênfase) */
+            --c-ink-text: #18351f;   /* texto escuro legível */
+            --c-muted: #8a978c;
+            --c-line: #e3ece4;
+            --c-accent: #f2c200;     /* amarelo Oclinhos (destaques) */
             --c-danger: #cc3333;
             --font-display: inherit;
             --font-body: inherit;
@@ -209,7 +211,7 @@
         /* ── Card ── */
         .q-card-ia {
             width: 100%; min-height: 100vh;
-            background: var(--c-bg); color: var(--c-ink);
+            background: var(--c-bg); color: var(--c-ink-text);
             display: flex; flex-direction: column; position: relative;
             animation: q-modal-in 0.35s cubic-bezier(0.22,1,0.36,1);
         }
@@ -253,7 +255,7 @@
             padding: 28px 28px 0;
             display: flex; flex-direction: column; align-items: center;
             text-align: center; gap: 10px;
-            border-bottom: 1px solid var(--c-line);
+            border-bottom: 3px solid var(--c-accent);
             padding-bottom: 22px; margin-bottom: 0;
         }
         #q-header-provador h1 {
@@ -367,7 +369,7 @@
             background: var(--c-surface); border: 1.5px solid transparent;
             border: 1.5px solid var(--c-line); border-radius: 14px;
             font-size: 16px; font-family: var(--font-body); font-weight: 400;
-            color: var(--c-ink); outline: none;
+            color: var(--c-ink-text); outline: none;
             -webkit-appearance: none; appearance: none; transition: border-color 0.2s;
         }
         .q-input:focus { border-color: var(--c-ink); background: #fff; }
@@ -1084,7 +1086,11 @@
     // ─── INIT ─────────────────────────────────────────────────────────────────────
 
 
+    let _plInitTs = 0;
     function init() {
+        if (init._done) return; // idempotente (evita 2x em SPA)
+        init._done = true;
+        _plInitTs = Date.now();
         // --- FILTRO DE CATEGORIA (HAT) ---
         const productNameNormalized = (document.querySelector('[data-hook="product-title"],h1.product__title,.product-single__title,h1')?.innerText || document.title).toUpperCase();
         if (productNameNormalized.includes('HAT')) {
@@ -1132,6 +1138,7 @@
                 for (const el of els) {
                     if (el.querySelector('img')) {
                         if (window.getComputedStyle(el).position === 'static') el.style.position = 'relative';
+                        openBtn.style.cssText = ''; delete openBtn.dataset.plFixed;
                         el.appendChild(openBtn);
                         return true;
                     }
@@ -1142,6 +1149,7 @@
                 const el = document.querySelector(sel);
                 if (el) {
                     if (window.getComputedStyle(el).position === 'static') el.style.position = 'relative';
+                    openBtn.style.cssText = ''; delete openBtn.dataset.plFixed;
                     el.appendChild(openBtn);
                     return true;
                 }
@@ -1149,21 +1157,19 @@
             return false;
         }
 
-        if (!tryPlaceTriggerBtn()) {
-            // Container não pronto ainda (ex: após F5 no mobile).
-            // Observa DOM até 5s aguardando o container aparecer.
-            const observer = new MutationObserver(() => {
-                if (tryPlaceTriggerBtn()) observer.disconnect();
-            });
-            observer.observe(document.body, { childList: true, subtree: true });
-
-            setTimeout(() => {
-                observer.disconnect();
-                if (!openBtn.isConnected) {
-                    openBtn.style.cssText = 'position:fixed;bottom:30px;right:20px;top:auto;z-index:100;';
-                    document.body.appendChild(openBtn);
-                }
-            }, 5000);
+        // ── WIX FIX: re-injeção persistente ──────────────────────────────────────────
+        // O Wix é um SPA React que re-renderiza o DOM do produto e REMOVE nós injetados
+        // (por isso os botões apareciam e sumiam). Em vez de desistir após X segundos,
+        // mantemos um watcher vivo que re-coloca os botões sempre que o Wix os apaga.
+        function ensureTriggerBtn() {
+            if (openBtn.isConnected && openBtn.dataset.plFixed !== '1') return; // já no lugar real
+            if (tryPlaceTriggerBtn()) return;
+            // Sem container ainda: fallback fixo só após um grace de 4s
+            if (!openBtn.isConnected && (Date.now() - _plInitTs) > 4000) {
+                openBtn.style.cssText = 'position:fixed;bottom:30px;right:20px;top:auto;z-index:2147483000;';
+                openBtn.dataset.plFixed = '1';
+                document.body.appendChild(openBtn);
+            }
         }
 
 
@@ -1203,22 +1209,26 @@
             openModal();
         });
 
-        // Posiciona acima do botão de compra.
-        // No Wix o DOM do produto renderiza async (React) depois do DOM Ready,
-        // então tenta agora e, se não achar, observa o DOM até 8s.
-        function tryPlaceInlineBtn() {
-            if (inlineBtn.isConnected) return true;
+        // Posiciona acima do botão de compra (idempotente — re-injeta se o Wix remover).
+        function ensureInlineBtn() {
+            if (inlineBtn.isConnected) return;
             const buyBtn = document.querySelector('[data-hook="add-to-cart"], [data-hook="buy-now-button-container-first-row"], .js-addtocart, .btn-add-to-cart, [data-component="product.add-to-cart"]');
-            if (buyBtn) { buyBtn.parentNode.insertBefore(inlineBtn, buyBtn); return true; }
+            if (buyBtn) { buyBtn.parentNode.insertBefore(inlineBtn, buyBtn); return; }
             const variantsContainer = document.querySelector('[data-hook="product-options"], .js-product-variants');
-            if (variantsContainer) { variantsContainer.parentNode.insertBefore(inlineBtn, variantsContainer.nextSibling); return true; }
-            return false;
+            if (variantsContainer) { variantsContainer.parentNode.insertBefore(inlineBtn, variantsContainer.nextSibling); }
         }
-        if (!tryPlaceInlineBtn()) {
-            const _inlineObs = new MutationObserver(() => { if (tryPlaceInlineBtn()) _inlineObs.disconnect(); });
-            _inlineObs.observe(document.body, { childList: true, subtree: true });
-            setTimeout(() => _inlineObs.disconnect(), 8000);
-        }
+
+        // ── Watcher persistente: garante os dois botões contra os re-renders do Wix ──
+        function ensurePLButtons() { try { ensureTriggerBtn(); } catch (e) {} try { ensureInlineBtn(); } catch (e) {} }
+        ensurePLButtons();
+        let _plDebounce = null;
+        const _plObserver = new MutationObserver(() => {
+            if (_plDebounce) return;
+            _plDebounce = setTimeout(() => { _plDebounce = null; ensurePLButtons(); }, 150);
+        });
+        _plObserver.observe(document.body, { childList: true, subtree: true });
+        // Rede de segurança: alguns re-renders do Wix não disparam mutation observável.
+        setInterval(ensurePLButtons, 1500);
         const genBtn      = document.getElementById('q-btn-generate');
         const nextBtn     = null; // single-step flow — no next button
         const phoneStep   = null;
