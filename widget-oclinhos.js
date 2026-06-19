@@ -972,17 +972,32 @@
             clone.submit();
             return;
         }
-        // Fallback / Wix: clica o botão nativo da loja.
-        // Fecha o modal antes pra não cobrir o checkout/drawer do Wix.
+        // Fallback / Wix: aciona o botão nativo da loja.
+        // O botão do Wix é um componente React/TPA: um .click() simples muitas vezes
+        // não dispara o handler. Fechamos o modal, rolamos até o botão e disparamos a
+        // sequência completa de eventos de ponteiro/mouse. Se a loja exigir escolher
+        // cor/variante, o cliente vê o aviso nativo já com o botão à vista.
         var sb = findStoreBuyBtn();
-        if (sb) {
-            try {
-                var _m = document.getElementById('q-modal-ia');
-                if (_m) _m.style.display = 'none';
-                if (typeof unlockBodyScroll === 'function') unlockBodyScroll();
-            } catch (e) {}
-            try { sb.click(); } catch (e) {}
+        try {
+            var _m = document.getElementById('q-modal-ia');
+            if (_m) _m.style.display = 'none';
+            if (typeof unlockBodyScroll === 'function') unlockBodyScroll();
+        } catch (e) {}
+        function fireRealClick(el) {
+            if (!el) return;
+            try { el.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (e) {}
+            setTimeout(function () {
+                try { el.focus(); } catch (e) {}
+                ['pointerover', 'pointerenter', 'pointerdown', 'mousedown', 'pointerup', 'mouseup', 'click'].forEach(function (type) {
+                    try {
+                        var Ctor = (type.indexOf('pointer') === 0 && window.PointerEvent) ? PointerEvent : MouseEvent;
+                        el.dispatchEvent(new Ctor(type, { bubbles: true, cancelable: true, view: window }));
+                    } catch (e) {}
+                });
+                try { el.click(); } catch (e) {}
+            }, 320);
         }
+        fireRealClick(sb);
     }
 
     // Escassez — número estável por produto (não muda a cada refresh)
