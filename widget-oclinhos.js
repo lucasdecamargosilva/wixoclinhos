@@ -190,7 +190,7 @@
             display: flex; align-items: center; justify-content: center; gap: 7px;
             width: 100%; padding: 13px 16px;
             background: transparent; color: var(--c-ink);
-            border: 1.5px solid var(--c-ink); border-radius: 8px;
+            border: 1.5px solid var(--c-ink); border-radius: 0;
             font-family: 'Work Sans', var(--font-body), sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase;
             cursor: pointer; transition: background 0.25s, color 0.25s;
             margin-bottom: 10px; box-sizing: border-box;
@@ -761,7 +761,7 @@
                     <!-- Persistent header (all steps) -->
                     <div id="q-header-provador">
                         <h1>Provador Virtual</h1>
-                        <img src="https://static.wixstatic.com/media/fe0e99_bc0b8564edd04523863afe8fe305eaea~mv2.png" alt="Oclinhos de Leitura" style="height:48px;width:auto;filter:brightness(0);"/>
+                        <img src="https://static.wixstatic.com/media/fe0e99_bc0b8564edd04523863afe8fe305eaea~mv2.png" alt="Oclinhos de Leitura" style="height:76px;width:auto;"/>
                     </div>
 
                     <!-- Main step -->
@@ -774,19 +774,7 @@
                             <div id="q-provas-restantes" class="q-provas-msg"></div>
                         </div>
 
-                        <!-- Product photo selector (carousel) -->
-                        <div class="q-photo-selector-wrap" id="q-photo-selector-group">
-                            <span class="q-field-label">Escolha a foto do &#243;culos</span>
-                            <div class="q-photo-carousel">
-                                <button type="button" class="q-photo-arrow q-photo-arrow-left" id="q-photo-arrow-left" aria-label="Anterior">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-                                </button>
-                                <div class="q-photo-thumbs" id="q-photo-thumbs"></div>
-                                <button type="button" class="q-photo-arrow q-photo-arrow-right" id="q-photo-arrow-right" aria-label="Pr&#243;xima">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-                                </button>
-                            </div>
-                        </div>
+                        <!-- Seletor de foto do produto removido a pedido da loja (usa a 1ª foto automaticamente) -->
 
                         <!-- Photo section -->
                         <p class="q-section-label">Envie sua foto</p>
