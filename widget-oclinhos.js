@@ -53,7 +53,7 @@
     // ===============================================
     // 0. CHUMBAR A API KEY AQUI DIRETO NO CÓDIGO
     // ===============================================
-    const apiKey = "__PL_API_KEY_OCLINHOS__"; // TODO: trocar pela pl_live_ gerada no cadastro-lojista
+    const apiKey = "pl_live_2fe8629bb4f2d0b550608538612ab35f28db932e0e08db2ced7a85ef91fbe9b9"; // TODO: trocar pela pl_live_ gerada no cadastro-lojista
     window.PROVOU_LEVOU_API_KEY = apiKey;
 
     const WEBHOOK_PROVA = 'https://n8n.segredosdodrop.com/webhook/gerador-oculos';
