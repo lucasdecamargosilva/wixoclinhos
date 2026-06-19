@@ -761,7 +761,7 @@
                     <!-- Persistent header (all steps) -->
                     <div id="q-header-provador">
                         <h1>Provador Virtual</h1>
-                        <img src="https://static.wixstatic.com/media/fe0e99_bc0b8564edd04523863afe8fe305eaea~mv2.png" alt="Oclinhos de Leitura" style="height:76px;width:auto;"/>
+                        <img src="https://static.wixstatic.com/media/fe0e99_bc0b8564edd04523863afe8fe305eaea~mv2.png" alt="Oclinhos de Leitura" style="height:120px;width:auto;max-width:80%;"/>
                     </div>
 
                     <!-- Main step -->
