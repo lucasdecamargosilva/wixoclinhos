@@ -183,7 +183,7 @@
         }
         .q-btn-trigger-ia:hover { filter: drop-shadow(0 6px 18px rgba(0,0,0,0.32)); }
         .q-btn-trigger-ia img { width: 100%; height: 100%; object-fit: contain; }
-        @media (min-width: 768px) { .q-btn-trigger-ia { width: 52px; height: 52px; } }
+        @media (min-width: 768px) { .q-btn-trigger-ia { width: 70px; height: 70px; } }
 
         /* ── Inline button ── */
         .q-btn-inline-provador {
