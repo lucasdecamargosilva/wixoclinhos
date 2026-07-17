@@ -395,11 +395,11 @@
 
         /* ── Tip ── */
         .q-tip-box {
-            display: flex; align-items: center; gap: 9px;
+            display: flex; align-items: center; justify-content: center; gap: 9px;
             background: var(--c-surface);
             padding: 11px 14px; margin-bottom: 20px;
             font-size: 11.5px; color: var(--c-muted); line-height: 1.45;
-            border-radius: 6px;
+            border-radius: 6px; text-align: center;
         }
         .q-tip-box i { color: var(--c-ink); font-size: 15px; flex-shrink: 0; }
         /* ── Required field marker + shake feedback ── */
@@ -754,7 +754,26 @@
               reducao — harmonia). So o logo diminui, porque o da Oclinhos e
               mais largo que o da Cacife. No fim do CSS de proposito. ── */
         @media (max-width: 767px) {
-            #q-header-provador img { height: 68px !important; max-width: 72% !important; }
+            #q-header-provador img { height: 62px !important; max-width: 68% !important; }
+            #q-header-provador h1 { font-size: 18px; letter-spacing: 3px; }
+            .q-close-ia { font-size: 18px; }
+            .q-field-label { font-size: 9px; }
+            .q-input { font-size: 14px; height: 46px; }
+            .q-section-label { font-size: 13px; }
+            .q-tip-box { font-size: 10.5px; }
+            .q-tip-box i { font-size: 13px; }
+            .q-btn-black, .q-btn-outline { font-size: 12px; }
+            .q-btn-buy-now { font-size: 13px; }
+            .q-loading-t1 { font-size: 13px; }
+            .q-res-title { font-size: 13px; }
+            .q-result-prodname { font-size: 16px; }
+            .q-result-prodprice { font-size: 22px; }
+            .q-result-installment { font-size: 11px; }
+            #q-step-pix h2 { font-size: 16px; }
+            #q-step-error h2 { font-size: 15px; }
+            .q-provas-msg { font-size: 12px; }
+            .q-face-placeholder i { font-size: 56px; }
+            .q-seal { font-size: 20px; }
         }
     `;
 
