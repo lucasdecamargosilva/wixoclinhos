@@ -288,7 +288,7 @@
 
         .q-provas-msg:empty { display: none; }
         .q-provas-msg {
-            font-size: 15px; margin-top: 14px; letter-spacing: 0.4px;
+            font-size: 13px; margin-top: 14px; letter-spacing: 0.4px;
             color: #fff; font-weight: 700;
             background: var(--c-ink);
             border: 2px solid var(--c-ink);
@@ -750,27 +750,11 @@
         .q-powered-footer span { font-size: 9.5px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--c-muted); }
         .q-quantic-logo { height: 20px; opacity: 0.7; }
 
-        /* ── Ajustes SO mobile (desktop fica como esta). No fim do CSS de
-              proposito, pra vencer as regras base por ordem de cascata. ── */
+        /* ── Ajuste SO mobile: as FONTES ficam iguais as da Cacife (base, sem
+              reducao — harmonia). So o logo diminui, porque o da Oclinhos e
+              mais largo que o da Cacife. No fim do CSS de proposito. ── */
         @media (max-width: 767px) {
-            #q-header-provador { padding: 18px 20px 0; }
-            #q-header-provador img { height: 72px !important; max-width: 62% !important; }
-            #q-header-provador h1 { font-size: 17px; letter-spacing: 2px; }
-            .q-section-label { font-size: 13px; letter-spacing: 1.5px; }
-            #q-step-photo { padding: 20px 20px 26px; }
-            .q-provas-msg { font-size: 13px; padding: 11px 14px; }
-            /* corpo do provador menor no mobile */
-            .q-field-label { font-size: 9px; }
-            .q-input { font-size: 14px; height: 46px; }
-            .q-tip-box { font-size: 12px; }
-            .q-upload-btn { font-size: 13px; }
-            .q-btn-black, .q-btn-outline, .q-btn-buy-now { font-size: 12px; }
-            .q-loading-t1 { font-size: 13px; }
-            .q-res-title { font-size: 13px; }
-            .q-result-prodname { font-size: 17px; }
-            .q-result-prodprice { font-size: 23px; }
-            #q-step-pix h2, #q-step-error h2 { font-size: 16px; }
-            .q-face-placeholder i { font-size: 60px; }
+            #q-header-provador img { height: 68px !important; max-width: 72% !important; }
         }
     `;
 
