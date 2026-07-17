@@ -179,9 +179,9 @@
         /* ── Trigger (selo sobre foto) ── */
         @keyframes q-shake { 0%,50%,100%{transform:rotate(0deg)} 10%,30%{transform:rotate(-10deg)} 20%,40%{transform:rotate(10deg)} }
         .q-btn-trigger-ia {
-            position: absolute; top: 32px; left: 14px; right: auto; z-index: 100;
+            position: absolute; top: 20px; left: 14px; right: auto; z-index: 100;
             background: none; border: none; padding: 0; cursor: pointer;
-            width: 46px; height: 46px;
+            width: 52px; height: 52px;
             display: flex; align-items: center; justify-content: center;
             filter: drop-shadow(0 3px 10px rgba(0,0,0,0.22));
             animation: q-shake 3s infinite;
@@ -189,7 +189,7 @@
         }
         .q-btn-trigger-ia:hover { filter: drop-shadow(0 6px 18px rgba(0,0,0,0.32)); }
         .q-btn-trigger-ia img { width: 100%; height: 100%; object-fit: contain; }
-        @media (min-width: 768px) { .q-btn-trigger-ia { width: 70px; height: 70px; right: 14px; left: auto; } }
+        @media (min-width: 768px) { .q-btn-trigger-ia { width: 78px; height: 78px; right: 14px; left: auto; } }
 
         /* ── Inline button ── */
         .q-btn-inline-provador {
