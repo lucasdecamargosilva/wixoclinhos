@@ -163,13 +163,13 @@
         /* ── Fontes ── */
 
         :root {
-            /* Branding Oclinhos de Leitura — azul + amarelo */
+            /* Branding Oclinhos de Leitura — azul-marinho da marca #0e3b65 */
             --c-bg: #ffffff;
-            --c-surface: #eef4fc;
-            --c-ink: #1d4ed8;        /* azul Oclinhos (CTAs, títulos, ênfase) */
-            --c-ink-text: #16233f;   /* texto escuro legível (azul-marinho) */
-            --c-muted: #8792a3;
-            --c-line: #dce7f5;
+            --c-surface: #eef2f7;
+            --c-ink: #0e3b65;        /* azul da marca (CTAs, títulos, texto, ênfase) */
+            --c-ink-text: #0e3b65;   /* mesmo azul da marca (provador todo naquele azul) */
+            --c-muted: #7d8896;
+            --c-line: #d8e0ea;
             --c-accent: #f2c200;     /* amarelo Oclinhos (destaques) */
             --c-danger: #cc3333;
             --font-display: inherit;
