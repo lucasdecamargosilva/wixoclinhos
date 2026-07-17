@@ -167,7 +167,7 @@
             --c-bg: #ffffff;
             --c-surface: #eef4fc;
             --c-ink: #1d4ed8;        /* azul Oclinhos (CTAs, títulos, ênfase) */
-            --c-ink-text: #16233f;   /* texto escuro legível (azul-marinho) */
+            --c-ink-text: #1d4ed8;   /* mesmo azul (texto unificado) */
             --c-muted: #8792a3;
             --c-line: #dce7f5;
             --c-accent: #f2c200;     /* amarelo Oclinhos (destaques) */
