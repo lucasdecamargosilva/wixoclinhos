@@ -769,7 +769,7 @@
                     <!-- Persistent header (all steps) -->
                     <div id="q-header-provador">
                         <h1>Provador Virtual</h1>
-                        <img src="https://static.wixstatic.com/media/fe0e99_bc0b8564edd04523863afe8fe305eaea~mv2.png" alt="Oclinhos de Leitura" style="height:120px;width:auto;max-width:80%;"/>
+                        <img src="https://static.wixstatic.com/media/fe0e99_a772027e9bf246ee946fb9e00b688f53~mv2.png/v1/fill/w_283,h_112,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Logo%20vetorizado%20(32).png" alt="Oclinhos de Leitura" style="height:120px;width:auto;max-width:80%;"/>
                     </div>
 
                     <!-- Main step -->
