@@ -261,6 +261,7 @@
             padding: 28px 28px 0;
             display: flex; flex-direction: column; align-items: center;
             text-align: center; gap: 10px;
+            border-bottom: 3px solid var(--c-ink);
             padding-bottom: 22px; margin-bottom: 0;
         }
         #q-header-provador h1 {
