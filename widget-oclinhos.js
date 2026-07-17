@@ -749,6 +749,17 @@
         }
         .q-powered-footer span { font-size: 9.5px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--c-muted); }
         .q-quantic-logo { height: 20px; opacity: 0.7; }
+
+        /* ── Ajustes SO mobile (desktop fica como esta). No fim do CSS de
+              proposito, pra vencer as regras base por ordem de cascata. ── */
+        @media (max-width: 767px) {
+            #q-header-provador { padding: 18px 20px 0; }
+            #q-header-provador img { height: 72px !important; max-width: 62% !important; }
+            #q-header-provador h1 { font-size: 17px; letter-spacing: 2px; }
+            .q-section-label { font-size: 13px; letter-spacing: 1.5px; }
+            #q-step-photo { padding: 20px 20px 26px; }
+            .q-provas-msg { font-size: 13px; padding: 11px 14px; }
+        }
     `;
 
 
