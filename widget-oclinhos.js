@@ -1284,6 +1284,21 @@
             return false;
         }
 
+        // A categoria (segmento do meio do breadcrumb) renderiza um pouco DEPOIS da página.
+        // "Resolvida" = o breadcrumb já tem um link de coleção (slug não-vazio; "Início" não conta).
+        function plCategoriaResolvida() {
+            var bc = document.querySelector('[data-hook="breadcrumbs"]');
+            if (!bc) return false;
+            var links = bc.querySelectorAll('a');
+            for (var i = 0; i < links.length; i++) {
+                var href = links[i].getAttribute('href') || '';
+                var slug = href.replace(/^https?:\/\/[^/]+/, '').replace(/^\/+|\/+$/g, '').toLowerCase();
+                if (slug) return true; // há categoria no breadcrumb → já dá pra decidir
+            }
+            return false;
+        }
+        var PL_CAT_GRACE_MS = 3000; // espera a categoria renderizar antes de mostrar o botão
+
         // ── Watcher persistente: garante os dois botões contra os re-renders do Wix ──
         function ensurePLButtons() {
             if (plCategoriaBloqueada()) {
@@ -1291,6 +1306,9 @@
                 try { if (inlineBtn.isConnected) inlineBtn.remove(); } catch (e) {}
                 return;
             }
+            // Anti-flash: enquanto a categoria ainda não renderizou e estamos na janela de graça,
+            // não injeta — evita o botão aparecer e sumir quando a categoria bloqueada chega atrasada.
+            if (!plCategoriaResolvida() && (Date.now() - _plInitTs) < PL_CAT_GRACE_MS) return;
             try { ensureTriggerBtn(); } catch (e) {} try { ensureInlineBtn(); } catch (e) {}
         }
         ensurePLButtons();
