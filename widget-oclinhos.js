@@ -1264,18 +1264,29 @@
             if (variantsContainer) { variantsContainer.parentNode.insertBefore(inlineBtn, variantsContainer.nextSibling); }
         }
 
-        // ── Páginas onde o provador NÃO deve aparecer (coleções/produtos sem try-on) ──
-        // Wix é SPA: a checagem roda no watcher, então cobre carga direta E navegação
-        // interna — remove os botões ao entrar numa página excluída e reinjeta ao sair.
-        function plPaginaExcluida() {
-            var p = (location.pathname || '').toLowerCase().replace(/\/+$/, '');
-            var bloq = ['/mini', '/escuros-sem-grau', '/armacoes', '/julianne', '/flora'];
-            return bloq.some(function (b) { return p === b || p.indexOf(b + '/') === 0; });
+        // ── Categorias onde o provador NÃO deve aparecer ──────────────────────────────
+        // Lê a categoria do produto pelo BREADCRUMB do Wix ("Início / ESCUROS / <produto>").
+        // O segmento da categoria é um <a> cujo href aponta pra coleção — casamos pelo SLUG
+        // (robusto) e, como rede, pelo texto normalizado. Cobre produto e página de coleção.
+        var PL_CAT_SLUGS_BLOQ = ['escuros-sem-grau', 'armacoes', 'julianne', 'flora', 'mini'];
+        var PL_CAT_TEXTOS_BLOQ = ['ESCUROS', 'ARMACOES', 'JULIANNE', 'FLORA', 'MINI'];
+        function plCategoriaBloqueada() {
+            var bc = document.querySelector('[data-hook="breadcrumbs"]');
+            if (!bc) return false;
+            var links = bc.querySelectorAll('a');
+            for (var i = 0; i < links.length; i++) {
+                var href = links[i].getAttribute('href') || '';
+                var slug = href.replace(/^https?:\/\/[^/]+/, '').replace(/^\/+|\/+$/g, '').toLowerCase();
+                if (slug && PL_CAT_SLUGS_BLOQ.indexOf(slug) !== -1) return true; // ex.: escuros-sem-grau
+                var t = (links[i].textContent || '').trim().toUpperCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+                if (t && PL_CAT_TEXTOS_BLOQ.indexOf(t) !== -1) return true;      // rede: casa pelo rótulo
+            }
+            return false;
         }
 
         // ── Watcher persistente: garante os dois botões contra os re-renders do Wix ──
         function ensurePLButtons() {
-            if (plPaginaExcluida()) {
+            if (plCategoriaBloqueada()) {
                 try { if (openBtn.isConnected) openBtn.remove(); } catch (e) {}
                 try { if (inlineBtn.isConnected) inlineBtn.remove(); } catch (e) {}
                 return;
