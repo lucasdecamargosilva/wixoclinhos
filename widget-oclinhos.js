@@ -19,6 +19,8 @@
         var local = nums.length === 11 ? nums.slice(3) : nums.slice(2);
         if (/^(\d)\1+$/.test(local)) { setErr('N\u00famero n\u00e3o parece real — confira'); return false; }
         if (/(\d)\1{5,}/.test(local)) { setErr('N\u00famero n\u00e3o parece real — confira'); return false; }
+        // so 1-2 digitos distintos = fake (99996666, 54545454, 56565656)
+        if (new Set(local).size <= 2) { setErr('N\u00famero n\u00e3o parece real — confira'); return false; }
         if (/^(?:01234567|12345678|23456789|34567890|98765432|87654321|76543210|0123456789|1234567890)/.test(local)) { setErr('N\u00famero n\u00e3o parece real — confira'); return false; }
         return true;
     }
@@ -1262,8 +1264,24 @@
             if (variantsContainer) { variantsContainer.parentNode.insertBefore(inlineBtn, variantsContainer.nextSibling); }
         }
 
+        // ── Páginas onde o provador NÃO deve aparecer (coleções/produtos sem try-on) ──
+        // Wix é SPA: a checagem roda no watcher, então cobre carga direta E navegação
+        // interna — remove os botões ao entrar numa página excluída e reinjeta ao sair.
+        function plPaginaExcluida() {
+            var p = (location.pathname || '').toLowerCase().replace(/\/+$/, '');
+            var bloq = ['/mini', '/escuros-sem-grau', '/armacoes', '/julianne', '/flora'];
+            return bloq.some(function (b) { return p === b || p.indexOf(b + '/') === 0; });
+        }
+
         // ── Watcher persistente: garante os dois botões contra os re-renders do Wix ──
-        function ensurePLButtons() { try { ensureTriggerBtn(); } catch (e) {} try { ensureInlineBtn(); } catch (e) {} }
+        function ensurePLButtons() {
+            if (plPaginaExcluida()) {
+                try { if (openBtn.isConnected) openBtn.remove(); } catch (e) {}
+                try { if (inlineBtn.isConnected) inlineBtn.remove(); } catch (e) {}
+                return;
+            }
+            try { ensureTriggerBtn(); } catch (e) {} try { ensureInlineBtn(); } catch (e) {}
+        }
         ensurePLButtons();
         let _plDebounce = null;
         const _plObserver = new MutationObserver(() => {
